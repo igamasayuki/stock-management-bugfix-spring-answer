@@ -127,7 +127,7 @@ public class BookController {
 	 * @return 書籍リスト画面
 	 */
 	@RequestMapping(value = "regist")
-	public String regist(@Validated RegistBookForm form, BindingResult result, Model model) {
+	synchronized public String regist(@Validated RegistBookForm form, BindingResult result, Model model) {
 		
 		if (result.hasErrors()) {
 			return form(model);
