@@ -1,0 +1,23 @@
+ログイン認証フィルターに必要なクラスやメソッドなど
+
+○ドメイン
+　LoginMember
+　　・・・Memberドメインに権限(ロール)情報が付与されたドメイン
+
+○サービスクラス
+　MemberDetailsServiceImpl
+　　・・・ログイン後のメンバー情報に権限情報を付与するサービスクラス
+
+○設定情報保持クラス
+　SecurityConfig
+　　・・・ログイン認証用設定クラス
+
+○JSP
+　以下のようにすると権限毎に表示を変えることができる
+
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
+<sec:authorize access="hasRole('ROLE_MEMBER') and isAuthenticated()">
+<sec:authentication var="memberName" property="principal.member.name" />
+	<c:out value="${memberName}" />&nbsp;さん
+</sec:authorize>
