@@ -55,13 +55,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-		<!-- Lombox P32 -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.14.0</version>
-			<scope>provided</scope>
-		</dependency>
 		<!-- lazyluke P53 -->
 		<dependency>
 			<groupId>org.lazyluke</groupId>

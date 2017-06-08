@@ -6,15 +6,12 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Data;
-
 /**
  * 書籍情報入力フォーム.
  * 
  * @author mikiyo.kitaoka
  *
  */
-@Data
 public class RegistBookForm {
 	/** 書籍名 */
 	@NotEmpty(message = "値を入力してください")
@@ -44,4 +41,58 @@ public class RegistBookForm {
 	/** 在庫数 */
 	@NotNull(message = "値を入力してください")
 	private Integer stock;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public String getPublisher() {
+		return publisher;
+	}
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	public Integer getPrice() {
+		return price;
+	}
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+	public String getIsbncode() {
+		return isbncode;
+	}
+	public void setIsbncode(String isbncode) {
+		this.isbncode = isbncode;
+	}
+	public String getSaledate() {
+		return saledate;
+	}
+	public void setSaledate(String saledate) {
+		this.saledate = saledate;
+	}
+	public String getExplanation() {
+		return explanation;
+	}
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
+	}
+	public MultipartFile getImageFile() {
+		return imageFile;
+	}
+	public void setImageFile(MultipartFile imageFile) {
+		this.imageFile = imageFile;
+	}
+	public Integer getStock() {
+		return stock;
+	}
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
 }
