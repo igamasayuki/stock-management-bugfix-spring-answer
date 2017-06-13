@@ -1,6 +1,6 @@
 package jp.co.rakus.stockmanagement.web;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * ログイン関連のリクエストパラメータが入るフォーム.
@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
  */
 public class LoginForm {
 	/** メールアドレス */
-	@NotNull(message = "値を入力してください")
+	@NotBlank(message = "値を入力してください")
 	private String mailAddress;
 	/** パスワード */
-	@NotNull(message = "値を入力してください")
+	@NotBlank(message = "値を入力してください")
 	private String password;
 	public String getMailAddress() {
 		return mailAddress;
