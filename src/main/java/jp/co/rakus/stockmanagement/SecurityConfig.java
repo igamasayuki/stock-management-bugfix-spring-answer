@@ -46,40 +46,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// 認可に関する設定。ここではログインフォームを表示する「/」には
-		// 任意のユーザがアクセスできるようにする。それ以外のパスには認証なしでアクセス
-		// できないようにする。
-		http.authorizeRequests().antMatchers("/","/member/form","/member/create").permitAll().anyRequest().authenticated();
 
-//		// /adminから始まるURLはADMINロールがあるユーザのみアクセス可能
-//		http.antMatcher("/admin/**").authorizeRequests().anyRequest().hasRole("ADMIN");
-		// 「ログイン」に関する「設定」を行う。
-		// ここでは「フォーム認証」を有効にし、「認証処理のパス」「ログイン・フォーム表示のパス」
-		// 「認証失敗時の遷移先」「認証成功時の遷移先」「メールアドレス」「パスワード」を設定する
-		http.formLogin().loginProcessingUrl("/login").loginPage("/")
-				.failureUrl("/?error").defaultSuccessUrl("/book/list", true)
-				.usernameParameter("mailAddress").passwordParameter("password").permitAll();
-		// 「ログアウト」に関する設定
-		// ここでは「ログアウト処理のパス」「ログアウト完了後の遷移先」を設定する
-		// 「AntPathRequestMatcher」クラスを使わず、「文字列のパス」を指定した場合は、
-		// 「ログアウト」するために「POST」でアクセスする必要がある。
-		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-				.logoutSuccessUrl("/");
-		// // Exceptionハンドラ
+		http.authorizeRequests() // 認可に関する設定
+			.antMatchers("/","/member/form","/member/create").permitAll() //「/」などのパスは全てのユーザに許可
+			//.antMatchers("/admin/**").hasRole("ADMIN") // /admin/から始まるパスはADMIN権限でログインしている場合のみアクセス可(権限設定時の「ROLE_」を除いた文字列を指定)
+			//.antMatchers("/member/**").hasRole("MEMBER") // /member/から始まるパスはMEMBER権限でログインしている場合のみアクセス可(権限設定時の「ROLE_」を除いた文字列を指定)
+			.anyRequest().authenticated(); // それ以外のパスは認証が必要
+
+		http.formLogin() // ログインに関する設定
+			.loginPage("/") // ログイン画面に遷移させるパス(ログイン認証が必要なパスを指定してかつログインされていないとこのパスに遷移される)
+			.loginProcessingUrl("/login") // ログインボタンを押した際に遷移させるパス(ここに遷移させれば自動的にログインが行われる)
+			.failureUrl("/?error=true") //ログイン失敗に遷移させるパス
+			.defaultSuccessUrl("/book/list", false) // 第1引数:デフォルトでログイン成功時に遷移させるパス
+			                                        // 第2引数: true :認証後常に第1引数のパスに遷移 
+			                                        //         false:認証されてなくて一度ログイン画面に飛ばされてもログインしたら指定したURLに遷移
+			.usernameParameter("mailAddress") // 認証時に使用するユーザ名のリクエストパラメータ名(今回はメールアドレスを使用)
+			.passwordParameter("password"); // 認証時に使用するパスワードのリクエストパラメータ名
+		
+		http.logout() // ログアウトに関する設定
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**")) // ログアウトさせる際に遷移させるパス
+			.logoutSuccessUrl("/") // ログアウト後に遷移させるパス(ここではログイン画面を設定)
+			.deleteCookies("JSESSIONID") // ログアウト後、Cookieに保存されているセッションIDを削除
+			.invalidateHttpSession(true); // true:ログアウト後、セッションを無効にする false:セッションを無効にしない
+		
+		// Exceptionハンドラ
 		// http.exceptionHandling()
 		// .accessDeniedPage("/403");
 	}
 
 	/**
 	 * 「認証」に関する設定.<br>
-	 * 認証ユーザを取得する「LoginAdminUserService」の設定や<br>
+	 * 認証ユーザを取得する「UserDetailsService」の設定や<br>
 	 * パスワード照合時に使う「PasswordEncoder」の設定
 	 * 
 	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
 	 */
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(memberDetailsService).passwordEncoder(new StandardPasswordEncoder());
+		auth.userDetailsService(memberDetailsService)
+			.passwordEncoder(new StandardPasswordEncoder());
 	}
 
     /**
