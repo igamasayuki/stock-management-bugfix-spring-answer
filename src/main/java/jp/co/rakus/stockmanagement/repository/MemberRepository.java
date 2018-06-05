@@ -1,7 +1,8 @@
 package jp.co.rakus.stockmanagement.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -89,12 +90,19 @@ public class MemberRepository {
 	public Member findByMailAddress(String mailAddress) {
 		String sql = "SELECT id, name, mail_address, password FROM members WHERE mail_address=:mailAddress";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
-		try {
-			Member member = jdbcTemplate.queryForObject(sql, param, MEMBER_ROW_MAPPER);
-
-			return member;
-		} catch (DataAccessException e) {
+		
+		List<Member> memberList = jdbcTemplate.query(sql, param, MEMBER_ROW_MAPPER);
+		if(memberList.size() == 0) {
 			return null;
 		}
+		return memberList.get(0);
+		
+		//		try {
+//			Member member = jdbcTemplate.queryForObject(sql, param, MEMBER_ROW_MAPPER);
+//
+//			return member;
+//		} catch (DataAccessException e) {
+//			return null;
+//		}
 	}
 }

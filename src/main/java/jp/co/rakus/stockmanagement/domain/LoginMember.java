@@ -15,7 +15,7 @@ public class LoginMember  extends User{
 
 	private static final long serialVersionUID = 1L;
 	/** メンバー情報 */
-	private Member member;
+	private final Member member;
 	
 	/**
 	 * 通常のメンバー情報に加え、認可用ロールを設定する。
@@ -30,9 +30,5 @@ public class LoginMember  extends User{
 
 	public Member getMember() {
 		return member;
-	}
-
-	public void setMember(Member member) {
-		this.member = member;
 	}
 }

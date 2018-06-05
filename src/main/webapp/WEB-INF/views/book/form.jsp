@@ -3,9 +3,8 @@
 <body>
     <div class="container">
 	<sec:authorize access="hasRole('ROLE_MEMBER') and isAuthenticated()">
-							<sec:authentication var="memberName" property="principal.member.name" />
-								<c:out value="${memberName}" />&nbsp;さん
-						</sec:authorize>
+		<sec:authentication property="principal.member.name" />&nbsp;さん
+	</sec:authorize>
 	　こんにちは！<br>
 	<a href="${pageContext.request.contextPath}/logout">ログアウト</a>
 	<a href="${pageContext.request.contextPath}/book/form">書籍情報追加はこちら</a>
