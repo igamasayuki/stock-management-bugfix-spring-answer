@@ -5,16 +5,15 @@
 	<div class="span8">
 		<img src="img/logo.gif" >
 		<div class="row">
-		<form:errors path="loginForm.*" />
-		<form:form modelAttribute="loginForm" action="${pageContext.request.contextPath}/login">
+		<div class="error"><c:out value="${loginError}" /></div>
+		<form:form  action="${pageContext.request.contextPath}/login">
 			<table class="table table-striped">
 			  <tr>
 			    <th>
 			    	 メールアドレス
 			    </th>
 			    <td>
-			    	<form:input path="mailAddress" placeholder="Email"/>
-			    	<form:errors path="mailAddress" />
+			    	<input type="text" name="mailAddress" placeholder="Email"/>
 			    </td>
 			  </tr>
 			  <tr>
@@ -22,8 +21,7 @@
 			      	パスワード
 			    </th>
 			    <td>
-			    	<form:password path="password" placeholder="Password"/>
-			    	<form:errors path="password" />
+			    	<input type="password" name="password" placeholder="Password"/>
 			    </td>
 			  </tr>
 			  <tr>

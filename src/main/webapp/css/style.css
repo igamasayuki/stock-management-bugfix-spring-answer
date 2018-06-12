@@ -13,7 +13,7 @@ h3{
 	text-indent:1em;
 }
 
-ul.error{
+.error{
 	color:#ff0000;
 	font-size:15px;
 	font-weight:bold;
