@@ -3,7 +3,7 @@
 <body>
 <div class="container">
 	<div class="span8">
-		<img src="img/logo.gif" >
+		<img src="img/logo.png" >
 		<div class="row">
 		<div class="error"><c:out value="${loginError}" /></div>
 		<form:form  action="${pageContext.request.contextPath}/login">
